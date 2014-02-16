@@ -17,11 +17,12 @@
 import fabric.api as fab
 import logging
 
-LOG  = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 TIMEOUT = 2*60
 REBOOT_TIMEOUT = 5*60
+
 
 class Server(object):
     def __init__(self, host, user=None, password=None, key_filename=None):
@@ -59,6 +60,7 @@ class Server(object):
 def run(servers, command, timeout=TIMEOUT):
     """Run a command on all given servers in sequence."""
     hosts = [m.host for m in servers]
+
     @fab.task
     @fab.serial
     def task():
@@ -69,6 +71,7 @@ def run(servers, command, timeout=TIMEOUT):
 def parallel_run(servers, command, timeout=TIMEOUT):
     """Run a command on all given servers in parallel."""
     hosts = [m.host for m in servers]
+
     @fab.task
     @fab.parallel
     def task():
